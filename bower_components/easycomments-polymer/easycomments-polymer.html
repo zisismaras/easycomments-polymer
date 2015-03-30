@@ -91,6 +91,7 @@
     Polymer('easycomments-polymer', {
       getComments: function(){
         this.url = this.mydomain + "/comments"
+        //using the current url as the post namespace
         this.post_global = decodeURIComponent(document.URL);
         this.shadowRoot.querySelector("#get_all_comments").go();
       },
