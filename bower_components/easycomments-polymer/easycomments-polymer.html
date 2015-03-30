@@ -1,0 +1,115 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+<link rel="import" href="../font-roboto/roboto.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
+<polymer-element name="easycomments-polymer" attributes="mydomain">
+  <template>
+    <style>
+      .comment-title {
+        background-color: #BDBDBD;
+        color: #616161;
+      }
+      .comment-content{
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+      .comment-meta{
+        background-color: #BDBDBD;
+        color: #616161;     
+        padding-bottom: 10px ;
+        padding-left: 20px;
+      }
+      .comment-body{
+        padding: 20px;
+      }
+      textarea {
+        width: 100%;
+      }
+      .comment-add {
+        padding:15px;
+      }
+      #post-button {
+        background-color: #BDBDBD;
+        color: #616161;         
+      }
+      #sent-message{
+        color: #616161; 
+        padding: 5px;
+      }
+      paper-input-decorator /deep/ .focused-underline {
+          /* line color when the input is focused */
+          background-color: #BDBDBD;
+      }
+      paper-input-decorator /deep/ #floatedLabelText {
+        color: #616161;
+      }
+      textarea:focus,
+      paper-autogrow-textarea:focus {
+          outline: none !important;
+          border:1px solid #BDBDBD;
+          box-shadow: 0 0 10px #BDBDBD;
+      }
+    </style>
+    <core-ajax
+      id="get_all_comments"
+      url="{{url}}"
+      params='{"post":"{{post_global}}"}'
+      handleAs="json"
+      response="{{comments}}">
+    </core-ajax>
+    <core-ajax
+      id="post_comment"
+      url="{{url}}"
+      method="post"
+      params='{"post":"{{post_global}}", "name":"{{post_name}}", "email":"{{post_email}}", "body":"{{post_body}}"}'
+      handleAs="json"
+      on-core-response="{{showToast}}">
+    </core-ajax>
+    <paper-toast id="toast1" text=""></paper-toast>
+    <paper-shadow>
+      <div horizontal center-justified layout class="comment-title"><h3>Comments</h3></div>
+      <template repeat="{{c in comments.comments}}">
+          <paper-shadow class="comment-content">
+            <div class="comment-meta">{{c.name}} - {{c.timestamp}}</div>
+            <div class="comment-body">{{c.body}}</div>
+          </paper-shadow>
+      </template>
+      <paper-shadow class="comment-add" vertical center-justified layout>
+        <paper-input-decorator floatingLabel label="Your Name (Not required)"><input is="core-input" value="{{post_name}}"></paper-input-decorator>
+        <paper-input-decorator floatingLabel label="Your E-mail  (Not required)"><input is="core-input" value="{{post_email}}"></paper-input-decorator><br>
+        <paper-autogrow-textarea id="a1">
+          <textarea value="{{post_body}}" rows="10"></textarea>
+        </paper-autogrow-textarea><br><br>
+        <paper-button raised id="post-button" on-click="{{postComment}}">Post comment</paper-button>
+      </paper-shadow>
+    </paper-shadow>
+  </template>
+  <script>
+    Polymer('easycomments-polymer', {
+      getComments: function(){
+        this.url = this.mydomain + "/comments"
+        this.post_global = decodeURIComponent(document.URL);
+        this.shadowRoot.querySelector("#get_all_comments").go();
+      },
+      postComment: function(){
+        this.url= this.mydomain + "/comment";
+        this.post_global = decodeURIComponent(document.URL);
+        this.shadowRoot.querySelector("#post_comment").go();
+        //reload comment list
+        this.getComments();
+        //scroll to top
+        this.shadowRoot.querySelector('.comment-title').scrollIntoView({block: "end", behavior: "smooth"});       
+      },
+      showToast: function(event, response) {
+        this.shadowRoot.querySelector('#toast1').text = response.response.status;
+        this.shadowRoot.querySelector('#toast1').show();
+      },
+      attached: function() {
+        this.getComments();
+      },
+    });
+  </script
+  </polymer-element>
