@@ -1,6 +1,6 @@
 {
   "name": "easycomments-polymer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "authors": [
     "Zisis Maras <zisismaras@gmail.com>"
   ],
@@ -9,6 +9,7 @@
     "Polymer",
     "web-components"
   ],
+  "main": "easycomments-polymer.html",
   "license": "MIT",
   "homepage": "https://github.com/zisismaras/easycomments-polymer",
   "ignore": [
