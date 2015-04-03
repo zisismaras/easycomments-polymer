@@ -1,10 +1,10 @@
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../paper-shadow/paper-shadow.html">
-<link rel="import" href="../font-roboto/roboto.html">
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../paper-input/paper-input.html">
-<link rel="import" href="../core-ajax/core-ajax.html">
-<link rel="import" href="../paper-toast/paper-toast.html">
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="bower_components/font-roboto/roboto.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="bower_components/paper-toast/paper-toast.html">
 <polymer-element name="easycomments-polymer" attributes="mydomain">
   <template>
     <style>
@@ -40,8 +40,8 @@
         padding: 5px;
       }
       paper-input-decorator /deep/ .focused-underline {
-          /* line color when the input is focused */
-          background-color: #BDBDBD;
+        /* line color when the input is focused */
+        background-color: #BDBDBD;
       }
       paper-input-decorator /deep/ #floatedLabelText {
         color: #616161;
@@ -52,11 +52,18 @@
           border:1px solid #BDBDBD;
           box-shadow: 0 0 10px #BDBDBD;
       }
+      .pagination{
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      .pg_input {
+         width: 83px;
+      }
     </style>
     <core-ajax
       id="get_all_comments"
       url="{{url}}"
-      params='{"post":"{{post_global}}"}'
+      params='{"post":"{{post_global}}", "page":"{{current_page}}"}'
       handleAs="json"
       response="{{comments}}">
     </core-ajax>
@@ -77,6 +84,16 @@
             <div class="comment-body">{{c.body}}</div>
           </paper-shadow>
       </template>
+      <template if="{{comments.total_pages > 1}}">
+        <paper-shadow class="pagination" horizontal center-justified layout>
+            <paper-button class="pg_btn" on-click="{{firstPage}}">First</paper-button>
+              <paper-button disabled='{{current_page <= 1}}' class="pg_btn" on-click="{{prevPage}}">Previous</paper-button>
+              <paper-input-decorator class="pg_input"><input is="core-input" value="{{page_input}}"></paper-input-decorator>
+              <label class="pg_btn"><br>of {{comments.total_pages}}</label>
+              <paper-button  disabled='{{current_page >= comments.total_pages}}' on-click="{{nextPage}}" class="pg_btn">Next</paper-button>
+            <paper-button class="pg_btn" on-click="{{lastPage}}">Last</paper-button>
+        </paper-shadow>
+      </template>
       <paper-shadow class="comment-add" vertical center-justified layout>
         <paper-input-decorator floatingLabel label="Your Name (Not required)"><input is="core-input" value="{{post_name}}"></paper-input-decorator>
         <paper-input-decorator floatingLabel label="Your E-mail  (Not required)"><input is="core-input" value="{{post_email}}"></paper-input-decorator><br>
@@ -91,6 +108,8 @@
     Polymer('easycomments-polymer', {
       getComments: function(){
         this.url = this.mydomain + "/comments"
+        this.current_page = 1;
+        this.page_input = this.current_page;
         //using the current url as the post namespace
         this.post_global = decodeURIComponent(document.URL);
         this.shadowRoot.querySelector("#get_all_comments").go();
@@ -107,6 +126,37 @@
       showToast: function(event, response) {
         this.shadowRoot.querySelector('#toast1').text = response.response.status;
         this.shadowRoot.querySelector('#toast1').show();
+      },
+      //pagination
+      firstPage: function () {
+        this.current_page = 1;
+        this.page_input = this.current_page;
+        this.shadowRoot.querySelector("#get_all_comments").go();
+      },
+      lastPage: function () {
+        this.current_page = this.comments.total_pages;
+        this.page_input = this.current_page;
+        this.shadowRoot.querySelector("#get_all_comments").go();
+      },
+      prevPage: function () {
+        this.current_page = this.current_page - 1;
+        this.page_input = this.current_page;
+        this.shadowRoot.querySelector("#get_all_comments").go();
+      },
+      nextPage: function () {
+        this.current_page = this.current_page + 1;
+        this.page_input = this.current_page;
+        this.shadowRoot.querySelector("#get_all_comments").go();
+      },
+      setPage: function (oldValue, newValue) {
+        if (oldValue != newValue && newValue > 0){
+          var value = Path.get('page_input').getValueFrom(this);
+          this.current_page = value;
+          this.shadowRoot.querySelector("#get_all_comments").go();
+        }
+      },
+      observe: {
+        'page_input': 'setPage'
       },
       attached: function() {
         this.getComments();

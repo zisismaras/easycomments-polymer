@@ -1,6 +1,6 @@
 {
   "name": "easycomments-polymer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "authors": [
     "Zisis Maras <zisismaras@gmail.com>"
   ],
@@ -17,7 +17,8 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "index.html"
   ],
   "dependencies": {
     "core-ajax": "Polymer/core-ajax#~0.5.5",

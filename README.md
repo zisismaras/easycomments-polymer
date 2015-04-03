@@ -1,4 +1,6 @@
-# easycomments-polymer
+# easycomments-polymer  
+[![Bower version](https://badge.fury.io/bo/easycomments-polymer.svg)](http://badge.fury.io/bo/easycomments-polymer)  
+
 
 An example client for the EasyComments system using Polymer and webcomponents.  
 
