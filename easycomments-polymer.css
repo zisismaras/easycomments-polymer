@@ -30,7 +30,6 @@ textarea {
   padding: 5px;
 }
 paper-input-decorator /deep/ .focused-underline {
-  /* line color when the input is focused */
   background-color: #BDBDBD;
 }
 paper-input-decorator /deep/ #floatedLabelText {

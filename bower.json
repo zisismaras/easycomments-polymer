@@ -1,6 +1,6 @@
 {
   "name": "easycomments-polymer",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "authors": [
     "Zisis Maras <zisismaras@gmail.com>"
   ],
@@ -28,5 +28,8 @@
     "paper-button": "Polymer/paper-button#~0.5.5",
     "font-roboto": "Polymer/font-roboto#~0.5.5",
     "polymer": "~0.5.5"
+  },
+  "devDependencies": {
+    "web-component-tester": "*"
   }
 }

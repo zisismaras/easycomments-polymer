@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>easycomments-polymer</title>
+
+    <script src="../../webcomponentsjs/webcomponents.min.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../easycomments-polymer.html">
+  </head>
+  <body>
+    <!-- Maybe test against the real endpoints instead of mocking the requests. -->
+    <easycomments-polymer mydomain="http://localhost:9393"></easycomments-polymer>
+
+    <script>
+      var ec = document.querySelector('easycomments-polymer');
+      suite('<easycomments-polymer>', function() {
+        test('on load it sets the current_page to 1', function() {
+          expect(ec.current_page).to.equal(1);
+        });
+      });
+    </script>
+
+  </body>
+</html>
