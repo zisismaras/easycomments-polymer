@@ -2,18 +2,21 @@
 [![Bower version](https://badge.fury.io/bo/easycomments-polymer.svg)](http://badge.fury.io/bo/easycomments-polymer)  
 
 
-An example client for the EasyComments system using Polymer and webcomponents.  
+An example client for the [EasyComments](https://github.com/zisismaras/easycomments) system using Polymer and webcomponents.  
+
+##Demo
+Check the the comment section on any post in my [blog](http://zisismaras.me)  
 
 ##Installing
 ```
-bower install easycomments-polymer
+bower install easycomments-polymer --save
 ```
 
 ##Using
 Import the component and provide the url to your EasyComments instalation.  
 
 ```html
-<link rel="import" href="bower_components/easycomments-polymer/easycomments-polymer.html">
+<link rel="import" href="../easycomments-polymer/easycomments-polymer.html">
 
 <easycomments-polymer mydomain="http://mydomain"></easycomments-polymer>
 ```
