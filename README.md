@@ -1,6 +1,7 @@
 # easycomments-polymer  
 [![Bower version](https://badge.fury.io/bo/easycomments-polymer.svg)](http://badge.fury.io/bo/easycomments-polymer)  
 
+**Note:** Still uses Polymer version 0.5.x and will not work with the new stable version(1.0).  
 
 An example client for the [EasyComments](https://github.com/zisismaras/easycomments) system using Polymer and webcomponents.  
 
